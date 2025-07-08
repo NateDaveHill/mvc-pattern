@@ -24,6 +24,7 @@ export default function Controller(model, view) {
 
     view.bindDeleteTodo(_handleRemoveTodo);
     view.bindToggleTodo(_handleToogleTodo);
+    view.bindEditTodo(_handleEditTodo);
     
 
     return { model, view};

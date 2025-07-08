@@ -27,7 +27,10 @@ export default function Model() {
     };
 
     const removeTodo = (id) => {
-        _todos = _todos.filter(todo => todo.id !== id);
+        _todos = _todos.filter((todo) => todo.id !== id);
+        console.log(_todos);
+        _onTodoChange(_todos);
+        localStorage.setItem('todos', JSON.stringify(_todos));
     };
 
     const editTodo = (id, newText) => {
@@ -42,7 +45,6 @@ export default function Model() {
             if (todo.id !== id) return todo;
             return { ...todo, completed: !todo.completed };
         });
-        console.log("Todos after toggle:", _todos);
     };
 
     const getTodos = () => {
