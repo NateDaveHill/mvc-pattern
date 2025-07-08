@@ -38,6 +38,7 @@ export default function View() {
         todoList.innerHTML = ''; // Clear existing todos
 
         if (todos.length === 0) {
+            console.log("No todos available.");
             const message = createElement('p', "message");
             message.textContent = 'No todos available.';
             todoList.appendChild(message);
@@ -55,13 +56,23 @@ export default function View() {
                 span.contentEditable = true;
                 span.classList.add('editable');
 
-                if (todo.completed) {
-                const strike = document.createElement('s');
-                strike.textContent = todo.text;
-                span.appendChild(strike);
-                } else {
-                    span.textContent = todo.text;
-                }
+                const updateText = () => {
+                    span.innerHTML = ''; // Clear the span content
+                    if (todo.completed) {
+                        const strike = document.createElement('s');
+                        strike.textContent = todo.text;
+                        span.appendChild(strike);
+                    } else {
+                        span.textContent = todo.text;
+                    }
+                };
+
+                updateText();
+
+                checkbox.addEventListener('change', () => {
+                    todo.completed = checkbox.checked; // Update the todo state
+                    updateText(); // Update the text based on the new state
+                });
 
                 const deleteButton = createElement('button', "delete");
                 deleteButton.textContent = 'Delete';
@@ -70,9 +81,10 @@ export default function View() {
 
                 todoList.append(listElement);
             });
+            
         }
     }
 
-    return { createElement, getElement };
+    return { createElement, getElement, renderTodos };
 
 }
