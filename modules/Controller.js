@@ -4,7 +4,7 @@ export default function Controller(model, view) {
     };
     onTodoChange(model.getTodos());
 
-    const _handleAddTodo = () => {
+    const _handleAddTodo = (todoText) => {
         model.addTodo(todoText);
     };
     const _handleRemoveTodo = (id) => {

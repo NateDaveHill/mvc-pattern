@@ -1,24 +1,29 @@
 export default function Model() {
 
-    let _onTodoChnage = (callback) => {};
+    let _onTodoChange = (callback) => {};
 
     const bindTodoChanged = (callback) => {
-        _onTodoChnage = callback;
+        _onTodoChange = callback;
     }
 
-    let _todos = [
-        { id: 1, text: "Learn JavaScript", completed: true },
-        { id: 2, text: "Build a web app", completed: false },
-        { id: 3, text: "Deploy to production", completed: false }
-    ];
+    let _todos = JSON.parse(localStorage.getItem("todos")) || []; 
+
+    const _pushTodos = (todos) => {
+        _onTodoChange(todos);
+        localStorage.setItem("todos", JSON.stringify(_todos));
+    }
+
+    _pushTodos(_todos);
 
     const addTodo = (text) => {
-    const todo = {
-            id: _todos.length + 1,
-            text,
-            completed: false
-            };
-        _todos.push(todo);
+
+        const todo = {
+                id: _todos.length + 1,
+                text,
+                completed: false
+                };
+            _todos.push(todo);
+            _pushTodos(_todos);
     };
 
     const removeTodo = (id) => {
