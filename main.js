@@ -4,7 +4,7 @@ import Controller from "./modules/Controller.js";
 
 console.log("Hello MVC Pattern!");
 
-new Controller(
-    new Model(),
-    new View()
+Controller(
+     Model(),
+     View()
 );

@@ -1,6 +1,13 @@
 export default function Model() {
-   const _todos = [
-        { id: 1, text: "Learn JavaScript", completed: false },
+
+    let _onTodoChnage = (callback) => {};
+
+    const bindTodoChanged = (callback) => {
+        _onTodoChnage = callback;
+    }
+
+    let _todos = [
+        { id: 1, text: "Learn JavaScript", completed: true },
         { id: 2, text: "Build a web app", completed: false },
         { id: 3, text: "Deploy to production", completed: false }
     ];
@@ -30,11 +37,12 @@ export default function Model() {
             if (todo.id !== id) return todo;
             return { ...todo, completed: !todo.completed };
         });
+        console.log("Todos after toggle:", _todos);
     };
 
     const getTodos = () => {
         return _todos;
     };
 
-    return { addTodo, removeTodo, editTodo, toggleTodo, getTodos };
+    return { addTodo, removeTodo, editTodo, toggleTodo, getTodos, bindTodoChanged };
 }

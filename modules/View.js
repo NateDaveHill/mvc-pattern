@@ -38,7 +38,6 @@ export default function View() {
         todoList.innerHTML = ''; // Clear existing todos
 
         if (todos.length === 0) {
-            console.log("No todos available.");
             const message = createElement('p', "message");
             message.textContent = 'No todos available.';
             todoList.appendChild(message);
@@ -56,23 +55,13 @@ export default function View() {
                 span.contentEditable = true;
                 span.classList.add('editable');
 
-                const updateText = () => {
-                    span.innerHTML = ''; // Clear the span content
-                    if (todo.completed) {
-                        const strike = document.createElement('s');
-                        strike.textContent = todo.text;
-                        span.appendChild(strike);
-                    } else {
-                        span.textContent = todo.text;
-                    }
-                };
-
-                updateText();
-
-                checkbox.addEventListener('change', () => {
-                    todo.completed = checkbox.checked; // Update the todo state
-                    updateText(); // Update the text based on the new state
-                });
+                if (todo.completed) {
+                const strike = document.createElement('s');
+                strike.textContent = todo.text;
+                span.appendChild(strike);
+                } else {
+                    span.textContent = todo.text;
+                }
 
                 const deleteButton = createElement('button', "delete");
                 deleteButton.textContent = 'Delete';
@@ -81,10 +70,52 @@ export default function View() {
 
                 todoList.append(listElement);
             });
-            
         }
     }
 
-    return { createElement, getElement, renderTodos };
+    const handleValues = () => {
+        const input = getElement("input");
+        const todoText = input.value;
+        const resetInput = () => (input.value = "");
+        return [todoText, resetInput];
+    }
+
+    const bindAddTodo = (handler) => {
+        const form = getElement("form");
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const [todoText, resetInput] = handleValues();
+            handler(todoText);
+            resetInput();
+        });
+    }
+
+    const bindDeleteTodo = (handler) => {
+        const todoList = getElement('.todo-list');
+        todoList.addEventListener('click', (event) => {
+            if (event.target.className === 'delete') {
+                const id = parseInt(event.target.parentElement.id);
+                handler(id);
+            }
+        });
+    };
+
+    const bindToggleTodo = (handler) => {
+        console.log("Binding toggle todo");
+        const todoList = getElement(".todo-list");
+        todoList.addEventListener('change', (event) => {
+            if (event.target.type === 'checkbox') {
+                const id = parseInt(event.target.parentElement.id);
+                handler(id);
+            }
+
+        })
+    }
+
+
+
+
+
+    return { createElement, getElement, renderTodos, bindAddTodo, handleValues, bindDeleteTodo, bindToggleTodo  };
 
 }
