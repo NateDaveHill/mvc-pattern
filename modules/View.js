@@ -7,18 +7,20 @@ export default function View() {
     const _initTempListerner = () => {
         const todoList = document.querySelector(".todo-list");
         todoList.addEventListener("input", (event) => {
-            if (event.target.classList === 'editable') {
+            if (event.target.classList.contains('editable')) {
                 _tempTodoText = event.target.textContent;
             }
         });
     }
-        _initTempListerner();
-
     const bindEditTodo = (handler) => {
         const todoList = getElement('.todo-list');
         todoList.addEventListener("focusout", (event) => {
             const id = parseInt(event.target.parentElement.id);
-            handler(id, _tempTodoText);
+            if (!isNaN(id) && _tempTodoText.trim() !== "") {
+                handler(id, _tempTodoText);
+            } else {
+                console.error("Invalid id or empty text:", id, _tempTodoText);
+            }
         });
     };
 
@@ -54,6 +56,7 @@ export default function View() {
         root.appendChild(todoList);
     };
     configure();
+    _initTempListerner();
 
 
     const renderTodos = (todos) => {
@@ -135,6 +138,6 @@ export default function View() {
         })
     }
 
-    return { createElement, getElement, renderTodos, bindAddTodo, handleValues, bindDeleteTodo, bindToggleTodo  };
+    return { createElement, getElement, renderTodos, bindAddTodo, handleValues, bindDeleteTodo, bindToggleTodo, bindEditTodo  };
 
 }
