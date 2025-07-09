@@ -19,7 +19,7 @@ export default function View() {
             if (!isNaN(id) && _tempTodoText.trim() !== "") {
                 handler(id, _tempTodoText);
             } else {
-                console.error("Invalid id or empty text:", id, _tempTodoText);
+                console.error("Ich brauche hilfe hier wie ich das fixe! Invalid id or empty text:", id, _tempTodoText);
             }
         });
     };
